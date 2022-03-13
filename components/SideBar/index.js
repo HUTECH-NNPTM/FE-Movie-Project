@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { logoutSuccess } from "../../slice/userSlice";
-import { useHistory } from "react-router-dom";
+import { useRouter } from 'next/router'
 
 function SideBar() {
   const user = useSelector((state) => state.user.info);
   const [info, setInfo] = useState({});
   const dispatch = useDispatch();
-  const history = useHistory();
+  const router = useRouter();
 
   useEffect(() => {
     setInfo(user);
@@ -18,7 +18,7 @@ function SideBar() {
   const handleLogout = () => { 
     localStorage.clear();
     dispatch(logoutSuccess());
-    return history.push("/login");
+    return router.push("/auth/login");
   }
 
   return (

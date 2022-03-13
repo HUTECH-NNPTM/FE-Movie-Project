@@ -1,14 +1,12 @@
 import { UserOutlined } from "@ant-design/icons";
 import {
-  HeartIcon,
-  DotsCircleHorizontalIcon,
-  SearchCircleIcon,
+  DotsCircleHorizontalIcon, HeartIcon, SearchCircleIcon
 } from "@heroicons/react/outline";
 import { Avatar } from "antd";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import SideBar from "../SideBar";
+import Link from 'next/link'
+
 
 function Header() {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -27,13 +25,13 @@ function Header() {
       </div>
       <div className="header-content">
         <ul className="header-content__list">
-          <Link to="/">
+          <Link href="/">
             <li className="header-content__item">Trang chủ</li>
           </Link>
-          <Link to="/series">
+          <Link href="/series">
             <li className="header-content__item">Phim dài tập</li>
           </Link>
-          <Link to="/movies">
+          <Link href="/movies">
             <li className="header-content__item">Phim chiếu rạp</li>
           </Link>
         </ul>

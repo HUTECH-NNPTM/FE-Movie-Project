@@ -3,25 +3,17 @@ import React, { useEffect, useRef, useState } from "react";
 import movieApi from "../../axios/movieApi";
 import MovieItem from "./MovieItem";
 
-function BestMovie() {
+function BestMovie({movies}) {
   const refScroll = useRef();
   const [positionX, setPositionX] = useState(0);
 
   //state
   const [movieList, setMovieList] = useState([]);
 
-  const getListBestMovie = async () => {
-    try {
-      const data = await movieApi.bestMovie();
-      setMovieList(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
-    getListBestMovie();
-  }, []);
+    setMovieList(movies);
+  }, [movies]);
 
   const handleMoveLeft = () => {
     if(positionX == -400 ) { 
@@ -54,7 +46,7 @@ function BestMovie() {
       </div>
       <div className="w-full overflow-hidden">
         <div className="list-all " ref={refScroll}>
-          {movieList.map((data, index) => {
+          {movieList?.map((data, index) => {
             return <MovieItem key={index} data={data}></MovieItem>;
           })}
         </div>

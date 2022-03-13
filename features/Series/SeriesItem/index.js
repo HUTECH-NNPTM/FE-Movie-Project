@@ -1,9 +1,6 @@
 import {
-  HeartOutlined,
   InfoCircleOutlined,
-  PlayCircleOutlined,
-  PushpinOutlined,
-  YoutubeOutlined,
+  PlayCircleOutlined
 } from "@ant-design/icons";
 import React from "react";
 
@@ -11,10 +8,10 @@ function SeriesItem() {
   return (
     <div className="flex-col series lg:w-[250px] lg:h-[150px] m-0 rounded-md cursor-pointer">
       {/* Header */}
-      <div className="flex series__item w-full relative h-full">
+      <div className="flex series__item w-full relative h-full bg-red">
         <img
           className="w-full h-full absolute"
-          src="https://truyenhinhvov.qltns.mediacdn.vn/239964650902032384/2021/8/18/1546938160525chinh-thuc-dan-dien-vien-va-nha-bien-kich-venom-se-tai-xuat-trong-phan-2-cua-sieu-pham-dien-anh-1629270871660-1629270871754799091295.jpg"
+          src="https://image.thanhnien.vn/1200x630/Uploaded/2022/wpxlcqjwq/2018_10_04/v1_fhvk.jpg"
         ></img>
       </div>
       <div className="flex bg-[#181818] break-all p-2">Penhouse - Thế giới thượng lưu</div>

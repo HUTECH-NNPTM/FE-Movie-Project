@@ -1,34 +1,58 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import movieApi from "../axios/movieApi";
 import userApi from "../axios/userApi";
-// import Slider from "../components/Slider";
-// import Movies from "../features/Movies";
-// import Series from "../features/Series";
+import MainLayOut from "../components/layouts/MainLayout";
+import Slider from "../components/Slider";
+import Movies from "../features/Movies";
+import Series from "../features/Series";
 
 import { loginSuccess } from "../slice/userSlice";
 
-function Home() {
-  const id = localStorage.getItem("id");
+function Home({ sliderList, moviesList }) {
   const dispatch = useDispatch();
 
-  const getInfoUser = async (id) => {
-    const data = await userApi.getInfoUser(id);
-    dispatch(loginSuccess(data));
-  };
+  if (typeof window !== "undefined") {
+    let id = localStorage.getItem("id");
+    let token = localStorage.getItem("token");
 
-  useEffect(() => {
-    getInfoUser(id);
-  }, []);
+    const getInfoUser = async (id) => {
+      const data = await userApi.getInfoUser(id);
+      dispatch(loginSuccess(data));
+    };
+
+    useEffect(() => {
+      if (id && token) {
+        getInfoUser(id);
+      }
+    }, [id]);
+  }
 
   return (
     <div className="homePage">
       {/* Slider */}
-      {/* <Slider name={props.type}></Slider> */}
+      <Slider sliders={sliderList[0]}></Slider>
       {/* Best Movie */}
-      {/* <Movies></Movies> */}
+      <Movies movies={moviesList}></Movies>
       {/* Best Series */}
-      {/* <Series></Series> */}
+      <Series></Series>
     </div>
   );
 }
+
+export async function getStaticProps() {
+  const sliderList = await movieApi.random();
+  const moviesList = await movieApi.bestMovie();
+
+  return {
+    props: {
+      sliderList,
+      moviesList
+    }, // will be passed to the page component as props
+    revalidate: 1
+  };
+}
+
+Home.Layout = MainLayOut;
+
 export default Home;

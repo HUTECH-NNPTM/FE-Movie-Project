@@ -17,6 +17,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .bg-movie-image {
   width: 100%;
   height: 100vh;
@@ -24,9 +25,11 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+
 .slider-background {
   background-color: #0e0e0e88;
 }
+
 @layer components {
   .navIcon {
     @apply hover:scale-125

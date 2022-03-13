@@ -1,6 +1,5 @@
 import { DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
-import movieApi from "../../axios/movieApi";
 import SeriesItem from "./SeriesItem";
 
 function BestSeries() {
