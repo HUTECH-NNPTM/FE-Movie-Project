@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./minxi";
+@import "./reset";
+@import "./header";
+@import "./slider";
+@import "./lists";
+@import "./trailer";
+@import "./watch";
+@import "./login";
+@import "./series";
+
+.center-item {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.bg-movie-image {
+  width: 100%;
+  height: 100vh;
+  background-image: url("https://assets.nflxext.com/ffe/siteui/vlv3/ed0b5df9-ba9d-4534-bd09-57993daeda56/d8140ec9-331f-4537-9743-62684296d353/VN-vi-20220214-popsignuptwoweeks-perspective_alpha_website_small.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.slider-background {
+  background-color: #0e0e0e88;
+}
+@layer components {
+  .navIcon {
+    @apply hover:scale-125
+        transition-all duration-75 ease-out;
+  }
+}

@@ -1,0 +1,11 @@
+.series {
+  &:hover {
+    .series__action,
+    .series__footer {
+      display: block;
+    }
+    transform: scale(1.2) translateY(-50px);
+    transition: all 0.5s ease-in;
+    z-index: 7;
+  }
+}
