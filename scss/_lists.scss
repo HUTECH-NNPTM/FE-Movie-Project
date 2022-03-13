@@ -82,6 +82,8 @@
     color: rgb(71, 70, 70);
   }
   &-desc {
+    height: 100px;
+    overflow: hidden;
     flex: 1;
     font-size: 13px;
     color: rgb(134, 134, 134);

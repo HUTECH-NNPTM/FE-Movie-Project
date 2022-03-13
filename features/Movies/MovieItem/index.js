@@ -4,16 +4,18 @@ import {
   PushpinOutlined,
   YoutubeOutlined,
 } from "@ant-design/icons";
+import { useRouter } from "next/router";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { openTrailer, setTrailerId } from "../../../slice/trailerSlice";
 
 function ListItem(props) {
+
   const dispatch = useDispatch();
-  const history = useHistory();
+  const router = useRouter();
 
   const data = props.data;
+  console.log(data);
 
   const handleTrailer = async () => {
     await dispatch(openTrailer(true));
@@ -21,7 +23,7 @@ function ListItem(props) {
   };
 
   const handleGoToWatch = (id) => {
-    return history.push(`/watch/${id}`);
+    return router.push(`/watch/${id}`);
   };
 
   return (
@@ -57,11 +59,11 @@ function ListItem(props) {
         </div>
       </div>
       <div className="listItem-content">
-        <div className="listItem-content__footer">
+        <div className="listItem-content__footer overflow-hidden">
           <div className="listItem-title">{data.title}</div>
           <div className="listItem-timer">1 tiếng 14 phút</div>
-          <div className="relative h-[58px] overflow-hidden">
-            <div className="listItem-desc absolute">{data.desc}</div>
+          <div className="relative">
+            <div className="listItem-desc">{data.desc}</div>
           </div>
         </div>
       </div>
