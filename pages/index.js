@@ -11,27 +11,34 @@ import { loginSuccess } from "../slice/userSlice";
 
 function Home({ sliderList, moviesList }) {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-  if (typeof window !== "undefined") {
+  const getInfoUser = async (id) => {
+    const data = await userApi.getInfoUser(id);
+    dispatch(loginSuccess(data));
+  };
+
+  useEffect(() => {
     let id = localStorage.getItem("id");
     let token = localStorage.getItem("token");
 
-    const getInfoUser = async (id) => {
-      const data = await userApi.getInfoUser(id);
-      dispatch(loginSuccess(data));
-    };
-
-    useEffect(() => {
-      if (id && token) {
+    if (id && token) {
+      setLoading(true);
+      setTimeout(() => {
         getInfoUser(id);
-      }
-    }, [id]);
+        setLoading(false);
+      }, 2000);
+    }
+  }, []);
+
+  if (loading) {
+    return <div className="fixed center-item text-lg">Loading...</div>;
   }
 
   return (
     <div className="homePage">
       {/* Slider */}
-      <Slider sliders={sliderList[0]}></Slider>
+      <Slider movies={sliderList[0]}></Slider>
       {/* Best Movie */}
       <Movies movies={moviesList}></Movies>
       {/* Best Series */}
@@ -40,16 +47,15 @@ function Home({ sliderList, moviesList }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const sliderList = await movieApi.random();
-  const moviesList = await movieApi.bestMovie();
+  const moviesList = await movieApi.getAllMovies();
 
   return {
     props: {
       sliderList,
-      moviesList
+      moviesList,
     }, // will be passed to the page component as props
-    revalidate: 1
   };
 }
 

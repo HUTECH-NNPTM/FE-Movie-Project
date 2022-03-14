@@ -1,23 +1,15 @@
 import { InfoCircleOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import { Select } from "antd";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { useDispatch } from "react-redux";
 import { openModalDetail, setModalId } from "../../slice/modalSlice";
 
-function Slider({ sliders }) {
+function Slider({ movies }) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    setMovies(sliders);
-  }, [sliders])
-  
-  const handleGoToWatch = (id) => {
-    return router.push(`/watch/${id}`);
-  };
 
   const handleOpenModal = (id) => {
     dispatch(openModalDetail(true));
@@ -47,16 +39,15 @@ function Slider({ sliders }) {
         </div>
 
         <div className="slider-action__button space-x-2">
-          <button
-            onClick={() => handleGoToWatch(movies._id)}
-            class="bg-white text-black font-bold py-2 px-8 flex items-center space-x-2"
-          >
-            <PlayCircleOutlined className="text-lg leading-none" />{" "}
-            <span>Xem Ngay</span>
-          </button>
+          <Link href={`/watch/movies/${movies._id}`}>
+            <button className="bg-white text-black font-bold py-2 px-8 flex items-center space-x-2">
+              <PlayCircleOutlined className="text-lg leading-none" />{" "}
+              <span>Xem Ngay</span>
+            </button>
+          </Link>
           <button
             onClick={() => handleOpenModal(movies._id)}
-            class="bg-transparent border-[1px] text-white font-bold py-2 px-8 flex items-center space-x-2"
+            className="bg-transparent border-[1px] text-white font-bold py-2 px-8 flex items-center space-x-2"
           >
             <InfoCircleOutlined className="text-lg leading-none" />{" "}
             <span>Chi tiết</span>
