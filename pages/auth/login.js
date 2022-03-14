@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import authApi from "../../axios/authApi";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
 function Login() {
   const router = useRouter();
-
+  
   //state
   const [message, setMessage] = useState("");
-  const [token, setToken] = useState("");
 
   useEffect(() => {
-    const tokenLocal = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) {
-      setToken(tokenLocal);
+      return router.push("/");
     }
-  }, [token]);
+  }, []);
 
-  useEffect(() => {
-    if (token) {
-      return history.push("/");
-    }
-  }, [token]);
-
-  const handleSubmitLogin = async (e) => {
+  const handleSubmitLogin = useCallback(async (e) => {
     e.preventDefault();
     let dataForm = {
       email: e.target.email.value,
@@ -41,7 +34,7 @@ function Login() {
         setMessage("Tài khoản hoặc mật khẩu không chính xác");
       }
     }
-  };
+  }, []);
 
   return (
     <div className="login flex justify-center items-center">
@@ -51,13 +44,13 @@ function Login() {
           {message && (
             <React.Fragment>
               <div
-                class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
                 role="alert"
               >
-                <span class="block sm:inline">{message}</span>
+                <span className="block sm:inline">{message}</span>
                 <span
                   onClick={() => setMessage("")}
-                  class="absolute top-0 bottom-0 right-0 px-4 py-3"
+                  className="absolute top-0 bottom-0 right-0 px-4 py-3"
                 >
                   <svg
                     className="fill-current h-6 w-6 text-red-500"
@@ -72,19 +65,19 @@ function Login() {
               </div>
             </React.Fragment>
           )}
-          <div class="w-full px-3 ">
+          <div className="w-full px-3 ">
             <input
               name="email"
-              class="appearance-none block w-full bg-gray-500 text-gray-200 border border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none"
+              className="appearance-none block w-full bg-gray-500 text-gray-200 border border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none"
               id="grid-last-name"
               type="text"
               placeholder="Email của bạn"
             />
           </div>
-          <div class="w-full px-3">
+          <div className="w-full px-3">
             <input
               name="password"
-              class="appearance-none block w-full bg-gray-500 text-gray-200 border border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none"
+              className="appearance-none block w-full bg-gray-500 text-gray-200 border border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none"
               id="grid-last-name"
               type="password"
               placeholder="Mật khẩu"
@@ -93,7 +86,7 @@ function Login() {
           <div className="flex justify-center">
             <button
               type="submit"
-              class="bg-red-600 text-white w-[250px] font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+              className="bg-red-600 text-white w-[250px] font-semibold py-2 px-4 border border-gray-400 rounded shadow"
             >
               Đăng nhập
             </button>

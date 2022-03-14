@@ -2,7 +2,6 @@ import { CloseCircleOutlined } from "@ant-design/icons";
 import React from "react";
 import ReactPlayer from "react-player";
 import { useDispatch, useSelector } from "react-redux";
-import YouTube from "react-youtube";
 import { closeTrailer, setTrailerId } from "../../slice/trailerSlice";
 
 function Trailer() {

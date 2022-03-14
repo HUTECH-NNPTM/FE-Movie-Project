@@ -4,44 +4,36 @@ import {
   PushpinOutlined,
   YoutubeOutlined,
 } from "@ant-design/icons";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { openTrailer, setTrailerId } from "../../../slice/trailerSlice";
 
 function ListItem(props) {
-
   const dispatch = useDispatch();
   const router = useRouter();
-
   const data = props.data;
-  console.log(data);
 
-  const handleTrailer = async () => {
-    await dispatch(openTrailer(true));
-    await dispatch(setTrailerId(data.trailer));
-  };
-
-  const handleGoToWatch = (id) => {
-    return router.push(`/watch/${id}`);
-  };
+  const handleTrailer = useCallback(() => {
+    dispatch(openTrailer(true));
+    dispatch(setTrailerId(data.trailer));
+  }, []);
 
   return (
-    <div className="listItem bg-[#181818] cursor-pointer">
-      <div className="w-full relative h-[200px]">
+    <div className="listItem bg-[#181818] cursor-pointer rounded-md">
+      <div className="w-full relative h-[200px] ">
         <img
-          className="listItem-image w-full h-full  rounded-sm absolute"
+          className="listItem-image w-full h-full rounded-md absolute"
           src={data.img}
         ></img>
         <div className="absolute bottom-0 p-2 w-full">
           <div className="flex space-x-5 justify-center">
-            <div
-              onClick={() => handleGoToWatch(data._id)}
-              className="listItem-button"
-              title="watching"
-            >
-              <PlayCircleOutlined className="leading-none" />
-            </div>
+            <Link href={`/watch/movies/${data._id}`}>
+              <div className="listItem-button" title="watching">
+                <PlayCircleOutlined className="leading-none" />
+              </div>
+            </Link>
             <div
               className="listItem-button"
               title="Trailer"
