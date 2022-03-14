@@ -12,6 +12,10 @@ const movieApi = {
   getMovieItem: (id) => {
     const url = `/movies/find/${id}`;
     return axiosClient.get(url);
+  },
+  getAllMovies: (id) => {
+    const url = `/movies/allMovies`;
+    return axiosClient.get(url);
   }
 };
 

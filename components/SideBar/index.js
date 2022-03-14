@@ -38,7 +38,7 @@ function SideBar() {
       </div>
       <div className="flex-col justify-center mt-3">
         <div className="flex items-center justify-center">
-          <button onClick={handleLogout} class="bg-red-500 hover:bg-red-400 text-white font-semibold hover:text-white py-2 px-8 border border-red-500 hover:border-transparent rounded">
+          <button onClick={handleLogout} className="bg-red-500 hover:bg-red-400 text-white font-semibold hover:text-white py-2 px-8 border border-red-500 hover:border-transparent rounded">
             Đăng xuất
           </button>
         </div>

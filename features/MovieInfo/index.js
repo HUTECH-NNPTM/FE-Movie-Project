@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import movieApi from "../../axios/movieApi";
 import { closeModalDetail } from "../../slice/modalSlice";
-import { useHistory } from "react-router-dom";
 import ReactPlayer from "react-player";
+import { useRouter } from "next/router";
+
 
 function MovieInfo() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const router = useRouter();
 
   const id = useSelector((state) => state.modal.idModal);
   const [movies, setMovies] = useState({});
@@ -33,7 +34,7 @@ function MovieInfo() {
 
   const handleGoToWatch = (movieId) => {
     dispatch(closeModalDetail(false));
-    return history.push(`/watch/${movieId}`);
+    return router.push(`/watch/movies/${movieId}`);
   };
 
   return (
