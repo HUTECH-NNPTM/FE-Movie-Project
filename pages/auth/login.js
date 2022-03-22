@@ -2,12 +2,14 @@ import React, { useEffect, useState, useCallback } from "react";
 import authApi from "../../axios/authApi";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Loading from "../../components/Loading";
 
 function Login() {
   const router = useRouter();
-  
+
   //state
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,24 +19,32 @@ function Login() {
   }, []);
 
   const handleSubmitLogin = useCallback(async (e) => {
-    e.preventDefault();
-    let dataForm = {
-      email: e.target.email.value,
-      password: e.target.password.value,
-    };
-    try {
-      const login = await authApi.login(dataForm);
-      if (login.accessToken) {
-        localStorage.setItem("token", login.accessToken);
-        localStorage.setItem("id", login._id);
-        return router.push("/");
+    setLoading(true);
+    setTimeout(async () => {
+      e.preventDefault();
+      let dataForm = {
+        email: e.target.email.value,
+        password: e.target.password.value,
+      };
+      try {
+        const login = await authApi.login(dataForm);
+        if (login.accessToken) {
+          localStorage.setItem("token", login.accessToken);
+          localStorage.setItem("id", login._id);
+          return router.push("/");
+        }
+      } catch (error) {
+        if (error.response.status == 401) {
+          setMessage("Tài khoản hoặc mật khẩu không chính xác");
+        }
       }
-    } catch (error) {
-      if (error.response.status == 401) {
-        setMessage("Tài khoản hoặc mật khẩu không chính xác");
-      }
-    }
+      setLoading(false);
+    }, 2000);
   }, []);
+
+  if (loading) {
+    return <Loading loading={loading}></Loading>;
+  }
 
   return (
     <div className="login flex justify-center items-center">
@@ -67,6 +77,7 @@ function Login() {
           )}
           <div className="w-full px-3 ">
             <input
+              required
               name="email"
               className="appearance-none block w-full bg-gray-500 text-gray-200 border border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none"
               id="grid-last-name"
@@ -76,6 +87,7 @@ function Login() {
           </div>
           <div className="w-full px-3">
             <input
+              required
               name="password"
               className="appearance-none block w-full bg-gray-500 text-gray-200 border border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none"
               id="grid-last-name"

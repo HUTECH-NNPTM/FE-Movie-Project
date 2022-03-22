@@ -15,10 +15,10 @@ function ListItem(props) {
   const router = useRouter();
   const data = props.data;
 
-  const handleTrailer = useCallback(() => {
+  const handleTrailer =() => {
     dispatch(openTrailer(true));
     dispatch(setTrailerId(data.trailer));
-  }, []);
+  };
 
   return (
     <div className="listItem bg-[#181818] cursor-pointer rounded-md">

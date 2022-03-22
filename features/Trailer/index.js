@@ -5,16 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeTrailer, setTrailerId } from "../../slice/trailerSlice";
 
 function Trailer() {
-  const idTrailer = useSelector((state) => state.trailer.idTrailer);
+  const url = useSelector((state) => state.trailer.idTrailer);
   const dispatch = useDispatch();
-
-  const opts = {
-    height: "500",
-    width: "650",
-    playerVars: {
-      autoplay: 1,
-    },
-  };
 
   const handleClose = async () => {
     dispatch(closeTrailer(false));
@@ -29,7 +21,7 @@ function Trailer() {
         </div>
         <ReactPlayer
           className="z-3"
-          url={`${idTrailer}`}
+          url={`${url}`}
           playing={true}
           controls={true}
         />

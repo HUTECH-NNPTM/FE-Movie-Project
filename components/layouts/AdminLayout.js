@@ -1,25 +1,23 @@
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Header from "../Admin/Header";
+import SideBarAdmin from "../Admin/SideBar";
+import { useRouter } from "next/router";
 import userApi from "../../axios/userApi";
-import MovieInfo from "../../features/MovieInfo";
-import Trailer from "../../features/Trailer";
 import { loginSuccess } from "../../slice/userSlice";
-import Footer from "../Footer";
-import Header from "../Header";
 import Loading from "../Loading";
 
-function MainLayout({ children }) {
+function AdminLayout({ children }) {
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const isOpenTrailer = useSelector((state) => state.trailer.isOpen);
-  const isOpenMovieInfo = useSelector((state) => state.modal.isOpen);
 
   const [loading, setLoading] = useState(false);
 
   const getInfoUser = async (id) => {
     const data = await userApi.getInfoUser(id);
+    if (!data.isAdmin) {
+      return router.push("/");
+    }
     dispatch(loginSuccess(data));
   };
 
@@ -29,25 +27,28 @@ function MainLayout({ children }) {
 
     if (id && token) {
       setLoading(true);
+      getInfoUser(id);
       setTimeout(() => {
-        getInfoUser(id);
         setLoading(false);
-      }, 2000);
-    } else { 
+      }, 1000);
+    } else {
       return router.push("/auth/login");
     }
   }, [router]);
 
+  if (loading) {
+    return <Loading></Loading>;
+  }
+
   return (
-    <>
+    <div className="bg-white text-black">
       <Header></Header>
-      {loading && <Loading loading={loading}></Loading>}
-      {isOpenTrailer && <Trailer></Trailer>}{" "}
-      {isOpenMovieInfo && <MovieInfo></MovieInfo>}
-      {children}
-      <Footer></Footer>
-    </>
+      <div className="flex h-full">
+        <SideBarAdmin></SideBarAdmin>
+        {children}
+      </div>
+    </div>
   );
 }
 
-export default MainLayout;
+export default AdminLayout;

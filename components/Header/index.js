@@ -20,37 +20,31 @@ function Header() {
       <div className="header-left">
         <img
           className="logo"
-          src="https://static.wikia.nocookie.net/jurassicpark/images/5/54/Netflix_logo.png"
+          src="https://static2.vieon.vn/production-vieon-web-v5/assets/img/vieon_logo_slogan.png"
         ></img>
       </div>
       <div className="header-content">
-        <ul className="header-content__list">
+        <ul className="header-content__list text-sm">
           <Link href="/">
             <li className="header-content__item">Trang chủ</li>
           </Link>
           <Link href="/series">
-            <li className="header-content__item">Phim dài tập</li>
-          </Link>
-          <Link href="/movies">
-            <li className="header-content__item">Phim chiếu rạp</li>
+            <li className="header-content__item">Phim Hay</li>
           </Link>
         </ul>
       </div>
       <div className="header-right">
         <ul className="header-content__list">
           <li className="header-content__item items-center">
-            <SearchCircleIcon className="w-8 h-8 navIcon" />
+            <SearchCircleIcon className="w-6 h-6 navIcon" />
           </li>
           <li className="header-content__item">
-            <HeartIcon className="w-8 h-8 navIcon" />
-          </li>
-          <li className="header-content__item">
-            <Avatar className="navIcon" icon={<UserOutlined />} />
+            <HeartIcon className="w-6 h-6 navIcon" />
           </li>
           <li className="header-content__item relative">
             <DotsCircleHorizontalIcon
               onClick={handleOpenSideBar}
-              className="w-8 h-8 navIcon"
+              className="w-6 h-6 navIcon"
             />
             {openSidebar && <SideBar></SideBar>}
           </li>

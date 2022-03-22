@@ -1,11 +1,11 @@
 import { CloseCircleOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import listApi from "../../axios/listApi";
 import movieApi from "../../axios/movieApi";
 import { closeModalDetail } from "../../slice/modalSlice";
 import ReactPlayer from "react-player";
 import { useRouter } from "next/router";
-
 
 function MovieInfo() {
   const dispatch = useDispatch();
@@ -13,12 +13,20 @@ function MovieInfo() {
 
   const id = useSelector((state) => state.modal.idModal);
   const [movies, setMovies] = useState({});
+  const [isList, setIsList] = useState(false);
 
   const getDataMovieItem = async () => {
+    console.log(id)
     try {
-      let data = await movieApi.getMovieItem(id);
-      console.log(data);
-      setMovies(data);
+      if (typeof id == "object") {
+        let data = await listApi.getListById(id.data);
+        setMovies(data);
+        setIsList(true);
+      } else {
+        let data = await movieApi.getMovieItem(id);
+        setMovies(data);
+        setIsList(false);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -46,15 +54,15 @@ function MovieInfo() {
             <div className="absolute w-full h-full bg-[#0e0e0e88] "></div>
             <ReactPlayer
               className="h-full"
-              url={`${movies.video}`}
+              url={`${movies.trailer}`}
               width="100%"
               playing={true}
               muted="true"
             />
-            <div className="absolute top-0 right-0 m-3">
+            <div className="absolute top-0 right-0 m-2">
               <CloseCircleOutlined
                 onClick={handleCloseModal}
-                className="text-3xl cursor-pointer"
+                className="text-3xl cursor-pointer leading-none"
               />
             </div>
             <div className="absolute center-item">

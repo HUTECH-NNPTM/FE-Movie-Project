@@ -16,6 +16,10 @@ const movieApi = {
   getAllMovies: (id) => {
     const url = `/movies/allMovies`;
     return axiosClient.get(url);
+  },
+  deleteMovie: (id) => { 
+    const url = `/movies/${id}`;
+    return axiosClient.delete(url);
   }
 };
 
