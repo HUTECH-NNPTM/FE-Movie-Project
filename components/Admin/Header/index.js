@@ -1,13 +1,25 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "../../../slice/userSlice"
+import { useRouter } from "next/router";
+ 
 function Header() {
   const user = useSelector((state) => state.user.info);
   const [openSetting, setOpenSetting] = useState(false);
 
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   const handleOpenSetting = () => {
     setOpenSetting(!openSetting);
   };
+
+  const handleLogout = () => { 
+    localStorage.clear();
+    dispatch(logoutSuccess());
+    return router.push("/auth/login");
+  }
+  
 
   return (
     <div className="bg-gray-800 !sticky top-0">
@@ -150,7 +162,7 @@ function Header() {
                       Settings
                     </a>
                     <a
-                      href="#"
+                      onClick={handleLogout}
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                       tabIndex={-1}

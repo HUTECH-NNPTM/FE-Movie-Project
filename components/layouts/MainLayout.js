@@ -20,7 +20,10 @@ function MainLayout({ children }) {
 
   const getInfoUser = async (id) => {
     const data = await userApi.getInfoUser(id);
-    dispatch(loginSuccess(data));
+    if (data) {
+      return dispatch(loginSuccess(data));
+    } 
+    return router.push("/auth/login");
   };
 
   useEffect(() => {
@@ -33,7 +36,7 @@ function MainLayout({ children }) {
         getInfoUser(id);
         setLoading(false);
       }, 2000);
-    } else { 
+    } else {
       return router.push("/auth/login");
     }
   }, [router]);
