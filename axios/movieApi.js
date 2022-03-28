@@ -1,6 +1,14 @@
 import axiosClient from "./axiosClient";
 
 const movieApi = {
+  create: (params) => {
+    const url = "/movies/";
+    return axiosClient.post(url, params);
+  },
+  update: (params) => {
+    const url = `/movies/${params._id}`;
+    return axiosClient.put(url, params);
+  },
   random: () => {
     const url = "/movies/random";
     return axiosClient.get(url);

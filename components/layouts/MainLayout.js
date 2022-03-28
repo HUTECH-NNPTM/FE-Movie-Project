@@ -8,6 +8,7 @@ import { loginSuccess } from "../../slice/userSlice";
 import Footer from "../Footer";
 import Header from "../Header";
 import Loading from "../Loading";
+import Head from "next/head";
 
 function MainLayout({ children }) {
   const router = useRouter();
@@ -22,7 +23,7 @@ function MainLayout({ children }) {
     const data = await userApi.getInfoUser(id);
     if (data) {
       return dispatch(loginSuccess(data));
-    } 
+    }
     return router.push("/auth/login");
   };
 
@@ -43,6 +44,10 @@ function MainLayout({ children }) {
 
   return (
     <>
+      <Head>
+        <title>NNRT - Phim mới, Phim hay chỉ có tại NNRT</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Header></Header>
       {loading && <Loading loading={loading}></Loading>}
       {isOpenTrailer && <Trailer></Trailer>}{" "}

@@ -17,6 +17,12 @@ export const movieSlice = createSlice({
     removeMovie: (state, action) => {
       return state;
     },
+    createMovie: (state, action) => {
+      return state;
+    },
+    updateMovie: (state, action) => {
+      return state;
+    },
     fetchMovie: (state, action) => {
       state.data = null;
       state.data = action.payload;
@@ -24,6 +30,8 @@ export const movieSlice = createSlice({
   },
 });
 
-export const { removeMovie, fetchMovie, setLoading } = movieSlice.actions;
+
+export const { removeMovie, fetchMovie, createMovie, setLoading, updateMovie } =
+  movieSlice.actions;
 
 export default movieSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { XCircleIcon } from "@heroicons/react/solid";
 import {
   storage,
@@ -8,16 +8,34 @@ import {
 } from "../../../../firebase";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { createMovie } from "../../../../slice/movieSlice";
+import { createMovie, updateMovie } from "../../../../slice/movieSlice";
+import movieApi from "../../../../axios/movieApi";
 
-function AddMovie({ handleCloseForm }) {
+function EditMovie({ handleCloseForm, id }) {
   const [movie, setMovie] = useState(null);
+  const [data, setData] = useState(null);
+
   const [img, setImg] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [video, setVideo] = useState(null);
   const [uploaded, setUploaded] = useState(0);
+
   const [loading, setLoading] = useState(false);
+  const [updateImgVideo, setUpdateImgVideo] = useState(false);
+
   const dispatch = useDispatch();
+
+  const getMovieItemEdit = async () => {
+    if (id) {
+      const response = await movieApi.getMovieItem(id);
+      setMovie(response);
+      setData(response);
+    }
+  };
+
+  useEffect(() => {
+    getMovieItemEdit();
+  }, []);
 
   const handleChange = (e) => {
     let value = e.target.value;
@@ -25,62 +43,69 @@ function AddMovie({ handleCloseForm }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    handleCloseForm();
-    dispatch(createMovie(movie));
+    try {
+      e.preventDefault();
+      handleCloseForm();
+      dispatch(updateMovie(movie));
+    } catch (error) {
+      toast.error("update movie fail!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
   };
 
   const uploadVideo = (items) => {
     items.forEach((item) => {
-      setLoading(true);
-      const storageRef = ref(storage, `/items/${item.file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, item.file);
+      if (item.file) {
+        setLoading(true);
+        const storageRef = ref(storage, `/items/${item.file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, item.file);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          if (progress === 100) {
-            toast.success("upload video success!", {
-              position: toast.POSITION.TOP_RIGHT,
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            if (progress === 100) {
+              toast.success("update file success!", {
+                position: toast.POSITION.TOP_RIGHT,
+              });
+            }
+            // console.log(progress);
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              setMovie((prev) => {
+                return { ...prev, [item.label]: downloadURL };
+              });
+              setUploaded((prev) => prev + 1);
+              setLoading(false);
+              setUpdateImgVideo(false);
             });
           }
-          // console.log(progress);
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setMovie((prev) => {
-              return { ...prev, [item.label]: downloadURL };
-            });
-            setUploaded((prev) => prev + 1);
-            setLoading(false);
-          });
-        }
-      );
+        );
+      }
     });
   };
 
   const handleUploadVideo = (e) => {
-    if (!img || !trailer || !video) {
-      return toast.error("File is not null", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    } else {
-      e.preventDefault();
-      uploadVideo([
-        { file: img, label: "img" },
-        { file: trailer, label: "trailer" },
-        { file: video, label: "video" },
-      ]);
-    }
+    e.preventDefault();
+    uploadVideo([
+      { file: img, label: "img" },
+      { file: trailer, label: "trailer" },
+      { file: video, label: "video" },
+    ]);
+  };
+
+  const handleOpenUpdateURL = () => {
+    setUpdateImgVideo(!updateImgVideo);
   };
 
   return (
-    <div className="fixed max-h-[500px] rounded-md bg-white shadow center-item top-[52%] border-[1px]overflow-y-auto h-[500px] w-[750px] z-10 scrollbar-thin scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 ">
+    <div className="fixed max-h-[500px] rounded-md shadow bg-white shadow center-item top-[52%] border-[2px]overflow-y-auto h-[500px] w-[750px] z-10 scrollbar-thin scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 ">
       {/* CLOSE BUTTON */}
       <form className="relative p-12" onSubmit={handleSubmit}>
         <div
@@ -89,85 +114,90 @@ function AddMovie({ handleCloseForm }) {
         >
           <XCircleIcon className="w-10 h-10 text-gray-500"></XCircleIcon>
         </div>
-        <div className="flex text-md font-bold mb-5">Add New Movie</div>
+        <div className="flex text-md font-bold mb-5">Edit Movie</div>
         {/* TITLE */}
         <div className="relative z-0 mb-6 w-full group">
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Title
+          </label>
           <input
+            value={movie?.title}
             onChange={handleChange}
             type="text"
             name="title"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder={data?.title ? data.title : ""}
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-            Title
-          </label>
         </div>
         {/* DESCRIPTION */}
         <div className="relative z-0 mb-6 w-full group">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
             Description
           </label>
           <textarea
             required
+            value={movie?.desc}
             onChange={handleChange}
             name="desc"
             id="message"
             rows="4"
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Description...."
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder={data?.desc ? data.desc : "Description"}
           ></textarea>
         </div>
         {/* YEAR AND GENRE */}
         <div className="grid xl:grid-cols-2 xl:gap-6">
           <div className="relative z-0 mb-6 w-full group">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Year
+            </label>
             <input
+              value={movie?.year}
               onChange={handleChange}
               type="number"
               name="year"
               id="year"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder={data?.year ? data.year : ""}
               required
             />
-            <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Year
-            </label>
           </div>
           <div className="relative z-0 mb-6 w-full group">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Genre
+            </label>
             <input
+              value={movie?.genre}
               onChange={handleChange}
               type="text"
               name="genre"
               id="floating_last_name"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder={data?.genre ? data.genre : ""}
               required
             />
-            <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Genre
-            </label>
           </div>
         </div>
         {/* LIMIT AND IS SERIES */}
         <div className="grid xl:grid-cols-2 xl:gap-6">
           <div className="relative z-0 mb-6 w-full group">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Limit
+            </label>
             <input
+              value={movie?.limit}
               onChange={handleChange}
               type="number"
               name="limit"
               id="limit"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder={data?.limit ? data.limit : ""}
               required
             />
-            <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Limit
-            </label>
           </div>
           <div className="relative z-0 mb-6 w-full group">
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
               Is Series
             </label>
             <select
@@ -175,16 +205,32 @@ function AddMovie({ handleCloseForm }) {
               onChange={handleChange}
               name="isSeries"
               id="isSeries"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option>Select value...</option>
-              <option value={true}>True</option>
-              <option value={false}>False</option>
+              <option selected={data?.isSeries && "selected"} value={true}>
+                True
+              </option>
+              <option selected={!data?.isSeries && "selected"} value={false}>
+                False
+              </option>
             </select>
           </div>
         </div>
+        <hr></hr>
+        {/* Update Image and video */}
+        <div className="relative z-0 mb-6 w-full group mt-5">
+          <button
+            onClick={handleOpenUpdateURL}
+            type="button"
+            className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+          >
+            Update URL
+          </button>
+        </div>
+
         {/* FORM UPLOAD */}
-        {uploaded === 0 && (
+        {updateImgVideo && (
           <React.Fragment>
             {/* IMAGE */}
             <div className="relative z-0 mb-6 w-full group">
@@ -232,7 +278,8 @@ function AddMovie({ handleCloseForm }) {
           </React.Fragment>
         )}
 
-        {uploaded === 3 && (
+        {/* FORM BASE URL */}
+        {!updateImgVideo && (
           <React.Fragment>
             <div className="flex-col">
               <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -287,14 +334,15 @@ function AddMovie({ handleCloseForm }) {
             </div>
           </React.Fragment>
         )}
-        {/* BUTTON */}
-        {uploaded === 3 ? (
+
+        {/* BUTTON SUBMIT*/}
+        {!updateImgVideo ? (
           <React.Fragment>
             <button
               type="submit"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Create
+              Update
             </button>
           </React.Fragment>
         ) : loading ? (
@@ -302,11 +350,11 @@ function AddMovie({ handleCloseForm }) {
             <button
               disabled
               type="button"
-              class="py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center"
+              className="py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center"
             >
               <svg
                 role="status"
-                class="inline w-4 h-4 mr-2 text-gray-200 animate-spin dark:text-gray-600"
+                className="inline w-4 h-4 mr-2 text-gray-200 animate-spin dark:text-gray-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -338,4 +386,4 @@ function AddMovie({ handleCloseForm }) {
   );
 }
 
-export default AddMovie;
+export default EditMovie;

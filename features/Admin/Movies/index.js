@@ -6,11 +6,16 @@ import { fetchMovie } from "../../../slice/movieSlice";
 import { useRouter } from "next/router";
 import MovieItem from "./MovieItem";
 import FormAdd from "./FormAdd";
+import FormEdit from "./FormEdit";
+
 
 function Movies() {
   const movies = useSelector((state) => state.movies.data);
   const loading = useSelector((state) => state.movies.loading);
   const [openFormAdd, setOpenFormAdd] = useState(false);
+  const [openFormEdit, setOpenFormEdit] = useState(false);
+  const [movieID, setMovieID] = useState(null);
+
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -28,6 +33,15 @@ function Movies() {
     setOpenFormAdd(false);
   }
 
+  const handleFormEdit = (id) => { 
+    setMovieID(id);
+    setOpenFormEdit(!openFormEdit);
+  }
+
+  const handleCloseFormEdit = () => { 
+    setOpenFormEdit(false);
+  }
+
   useEffect(() => {
     getAllMovies();
   }, [router]);
@@ -38,6 +52,9 @@ function Movies() {
       {loading && <Loading></Loading>}
       {/* ADD */}
       {openFormAdd && <FormAdd handleCloseForm={handleCloseForm}></FormAdd>}
+
+      {openFormEdit && <FormEdit handleCloseForm={handleCloseFormEdit} id={movieID}></FormEdit>}
+
       {/* SECTION */}
       <section className="antialiased text-gray-600 h-full px-4">
         <div className="flex flex-col p-5 h-full ">
@@ -57,11 +74,11 @@ function Movies() {
             </header>
             <div className="p-3">
               <div className="overflow-x-auto">
-                <table className="table-auto w-full">
+                <table className="w-full">
                   <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                     <tr>
                       <th className="p-2 whitespace-nowrap">
-                        <div className="font-semibold text-left">ID</div>
+                        <div className="font-semibold text-left">Image</div>
                       </th>
                       <th className="p-2">
                         <div className="font-semibold text-left">Movies</div>
@@ -87,7 +104,7 @@ function Movies() {
                   </thead>
                   <tbody className="text-sm divide-y divide-gray-100">
                     {movies?.map((item, index) => (
-                      <MovieItem key={index} item={item}></MovieItem>
+                      <MovieItem handleFormEdit={handleFormEdit} key={index} item={item}></MovieItem>
                     ))}
                   </tbody>
                 </table>

@@ -1,21 +1,45 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { removeMovie } from "../../../../slice/movieSlice";
+import Player from "../../Player";
 
-function MovieItem({ item }) {
+import {
+  PencilAltIcon,
+  XCircleIcon,
+  VideoCameraIcon,
+  FilmIcon,
+} from "@heroicons/react/solid";
+
+function MovieItem({ item, handleFormEdit }) {
   const dispatch = useDispatch();
+  const [urlVideo, setUrlVideo] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [openVideo, setOpenVideo] = useState(false);
 
   const handleDelete = (id) => {
     dispatch(removeMovie(id));
-    setOpenModal(!openModal)
+    setOpenModal(!openModal);
+  };
+
+  const handleOpenVideo = (url) => {
+    setUrlVideo(url);
+    setOpenVideo(!openModal);
+  };
+
+  const handleCloseVideo = () => {
+    setOpenVideo(false);
   };
 
   return (
     <tr>
-      <td className="p-2 whitespace-nowrap">
+      <td className="p-2">
         <div className="text-left">
-          <img className="object-contain" src={item.img} width={150} />
+          <img
+            className="!object-cover h-[100px]"
+            src={item.img}
+            width={150}
+            height={100}
+          />
         </div>
       </td>
       <td className="p-2 break-all">
@@ -28,27 +52,53 @@ function MovieItem({ item }) {
         <div className="text-left font-medium text-green-500">{item.year}</div>
       </td>
       <td className="p-2 whitespace-nowrap">
-        <div className="text-lg text-center">{item.limit}</div>
+        <div className="text-center">{item.limit}</div>
       </td>
       <td className="p-2 whitespace-nowrap">
-        <div className="text-lg text-center">{item.isSeries.toString()}</div>
+        <div className="text-center font-bold">{item.isSeries ? "Series" : "Movie"}</div>
       </td>
       <td className="p-2 whitespace-nowrap">
-        <div className="text-lg text-center">
-          <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-              Edit
-            </span>
+        <div className="text-center">
+          {/* Edit */}
+          <button onClick={() => handleFormEdit(item._id)} title="edit" className="relative inline-flex items-center justify-center mb-2 mr-2 p-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+            <PencilAltIcon className="w-5 h-5 text-white"></PencilAltIcon>
           </button>
+          {/* Delete */}
           <button
+            title="delete"
             onClick={() => setOpenModal(!openModal)}
-            className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
+            className="relative inline-flex items-center justify-center p-2 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
           >
-            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-              Delete
-            </span>
+            <XCircleIcon className="w-5 h-5 text-white"></XCircleIcon>
+          </button>
+          {/* Video */}
+          <button
+            title="video"
+            onClick={() => handleOpenVideo(item.video)}
+            className="relative inline-flex items-center justify-center p-2 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+          >
+            <FilmIcon className="w-5 h-5 text-white"></FilmIcon>
+          </button>
+          {/* Trailer */}
+          <button
+            title="trailer"
+            onClick={() => handleOpenVideo(item.trailer)}
+            className="relative inline-flex items-center justify-center p-2 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+          >
+            <VideoCameraIcon className="w-5 h-5 text-white"></VideoCameraIcon>
           </button>
 
+          {/* Modal Video */}
+          {openVideo && (
+            <React.Fragment>
+              <Player
+                url={urlVideo}
+                handleCloseVideo={handleCloseVideo}
+              ></Player>
+            </React.Fragment>
+          )}
+
+          {/* Modal Delete */}
           {openModal && (
             <React.Fragment>
               <div
@@ -109,6 +159,7 @@ function MovieItem({ item }) {
               </div>
             </React.Fragment>
           )}
+
         </div>
       </td>
     </tr>
