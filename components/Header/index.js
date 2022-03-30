@@ -1,18 +1,26 @@
 import { UserOutlined } from "@ant-design/icons";
 import {
-  DotsCircleHorizontalIcon, HeartIcon, SearchCircleIcon
+  DotsCircleHorizontalIcon,
+  HeartIcon,
+  SearchCircleIcon,
 } from "@heroicons/react/outline";
 import { Avatar } from "antd";
 import React, { useState } from "react";
 import SideBar from "../SideBar";
-import Link from 'next/link'
-
+import Link from "next/link";
+import { useSelector } from "react-redux";
+import Search from "../Search";
 
 function Header() {
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [openFormSearch, setFormSearch] = useState(false);
 
   const handleOpenSideBar = () => {
     setOpenSidebar(!openSidebar);
+  };
+
+  const handleSearchFeature = () => {
+    setFormSearch(!openFormSearch);
   };
 
   return (
@@ -34,9 +42,9 @@ function Header() {
         </ul>
       </div>
       <div className="header-right">
-        <ul className="header-content__list">
+        <ul className="header-content__list items-center">
           <li className="header-content__item items-center">
-            <SearchCircleIcon className="w-6 h-6 navIcon" />
+            <Search openFormSearch={openFormSearch}></Search>
           </li>
           <li className="header-content__item">
             <HeartIcon className="w-6 h-6 navIcon" />

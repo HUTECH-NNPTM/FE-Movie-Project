@@ -10,16 +10,21 @@ import Movies from "../features/Movies";
 import Series from "../features/Series";
 import { loginSuccess } from "../slice/userSlice";
 
-
-function Home({ sliderList, moviesList, seriesList }) {
+function Home({ sliderList, moviesList, seriesList, moviesNewList, seriesNewList }) {
   return (
     <div className="homePage">
       {/* Slider */}
       <Slider movies={sliderList[0]}></Slider>
-      {/* Best Movie */}
-      <Movies movies={moviesList}></Movies>
-      {/* Best Series */}
-      <Series series={seriesList}></Series>
+      <div className="background-body pb-10">
+        {/* New Movie */}
+        <Movies movies={moviesNewList} title="PHIM CHIẾU RẠP MỚI NHẤT"></Movies>
+        {/* Best Series */}
+        <Series series={seriesNewList} title="PHIM TẬP DÀI MỚI NHẤT "></Series>
+        {/* Best Movie */}
+        <Movies movies={moviesList} title="PHIM CHIẾU RẠP"></Movies>
+        {/* Best Series */}
+        <Series series={seriesList} title="PHIM TẬP DÀI "></Series>
+      </div>
     </div>
   );
 }
@@ -28,12 +33,16 @@ export async function getServerSideProps() {
   const sliderList = await movieApi.random();
   const moviesList = await movieApi.bestMovie();
   const seriesList = await listApi.getAllList();
+  const moviesNewList = await movieApi.newMovie();
+  const seriesNewList = await listApi.newList();
 
   return {
     props: {
       sliderList,
       moviesList,
       seriesList,
+      moviesNewList,
+      seriesNewList
     }, // will be passed to the page component as props
   };
 }

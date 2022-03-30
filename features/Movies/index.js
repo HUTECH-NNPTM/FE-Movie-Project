@@ -4,7 +4,7 @@ import MovieItem from "./MovieItem";
 import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from '@heroicons/react/solid'
 
 
-function BestMovie({movies}) {
+function BestMovie({movies, title}) {
   const refScroll = useRef();
   const [positionX, setPositionX] = useState(0);
 
@@ -37,7 +37,7 @@ function BestMovie({movies}) {
   return (
     <div className="list">
       <div className="list-btn">
-        <div className="list-title">PHIM CHIẾU RẠP HAY</div>
+        <div className="list-title">{title}</div>
         <div className="list-btn__left" onClick={handleMoveLeft}>
           <ArrowCircleLeftIcon className="w-8 h-8 leading-none" />
         </div>

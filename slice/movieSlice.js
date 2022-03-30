@@ -23,6 +23,9 @@ export const movieSlice = createSlice({
     updateMovie: (state, action) => {
       return state;
     },
+    updateMovie: (state, action) => {
+      return state;
+    },
     fetchMovie: (state, action) => {
       state.data = null;
       state.data = action.payload;

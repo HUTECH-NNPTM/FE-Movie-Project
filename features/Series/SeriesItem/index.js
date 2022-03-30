@@ -20,10 +20,10 @@ function SeriesItem({ data }) {
   );
 
   return (
-    <div className="flex-col series lg:w-[250px] lg:h-[150px] m-0 rounded-md cursor-pointer">
+    <div className="flex-col series w-[300px] h-[150px] m-0 rounded-md cursor-pointer">
       {/* Header */}
       <div className="flex series__item w-full relative h-full bg-red">
-        <img className="w-full h-full absolute" src={data.img}></img>
+        <img className="w-full h-full object-cover absolute" src={data.img}></img>
       </div>
       <div className="flex bg-[#181818] break-all p-2">{data.title}</div>
       {/* Content */}

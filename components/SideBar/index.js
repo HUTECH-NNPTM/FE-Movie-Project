@@ -36,15 +36,17 @@ function SideBar() {
               <div className="text-gray-300 break-all">{info?.email}</div>
             </div>
           </div>
-          <div
-            className="flex p-5"
-            onClick={() => router.push("admin/dashboard")}
-          >
-            Quản lý website
-          </div>
+          {info?.isAdmin && (
+            <div
+              className="flex p-5"
+              onClick={() => router.push("admin/dashboard")}
+            >
+              Quản lý website
+            </div>
+          )}
         </div>
       </div>
-      <div className="flex-col justify-center mt-3">
+      <div className="flex-col justify-center mt-3 p-3">
         <div className="flex items-center justify-center">
           <button
             onClick={handleLogout}

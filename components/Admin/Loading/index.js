@@ -11,7 +11,7 @@ function Loading({ loading }) {
 
   return (
     <div className="fixed w-full h-screen background-tranparent text-black z-50 ">
-      <div className="center-item text-lg z-50 absolute !left-[40%] !top-[40%]">
+      <div className="center-item text-lg z-50 absolute">
         <div className="flex-col justify-center items-center  text-lg">
           <div className="text-white">Đang xử lý tác vụ vui lòng chờ!</div>
           <div className="flex justify-center mt-3">

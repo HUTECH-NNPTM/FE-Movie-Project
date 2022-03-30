@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import userApi from "../../axios/userApi";
 import { loginSuccess } from "../../slice/userSlice";
 import Loading from "../Loading";
-import Head from 'next/head'
-
+import Head from "next/head";
+import Footer from "../Footer";
 
 function AdminLayout({ children }) {
   const router = useRouter();
@@ -43,19 +43,14 @@ function AdminLayout({ children }) {
   }
 
   return (
-    <div>
+    <>
       <Head>
         <title>NNRT - Admin Page</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="bg-white text-black">
-        <Header></Header>
-        <div className="flex h-full">
-          <SideBarAdmin></SideBarAdmin>
-          {children}
-        </div>
-      </div>
-    </div>
+      <Header></Header>
+      {children}
+    </>
   );
 }
 

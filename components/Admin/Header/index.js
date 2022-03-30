@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutSuccess } from "../../../slice/userSlice"
+import { logoutSuccess } from "../../../slice/userSlice";
 import { useRouter } from "next/router";
- 
+import Link from "next/link";
+
 function Header() {
   const user = useSelector((state) => state.user.info);
   const [openSetting, setOpenSetting] = useState(false);
@@ -14,15 +15,14 @@ function Header() {
     setOpenSetting(!openSetting);
   };
 
-  const handleLogout = () => { 
+  const handleLogout = () => {
     localStorage.clear();
     dispatch(logoutSuccess());
     return router.push("/auth/login");
-  }
-  
+  };
 
   return (
-    <div className="bg-gray-800 !sticky top-0">
+    <div className="bg-gray-800 !sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -81,13 +81,26 @@ function Header() {
             </div>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                  aria-current="page"
-                >
-                  Dashboard
-                </a>
+                <Link href={"/admin/dashboard"}>
+                  <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
+                    Dashboard
+                  </a>
+                </Link>
+                <Link href={"/admin/movies"}>
+                  <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
+                    Movie
+                  </a>
+                </Link>
+                <Link href={"/admin/series"}>
+                  <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
+                    Series
+                  </a>
+                </Link>
+                <Link href={"/admin/users"}>
+                  <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
+                    Users
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -145,7 +158,7 @@ function Header() {
                   >
                     <a
                       href="#"
-                      className="block px-4 py-2 text-sm text-gray-700"
+                      className="block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                       role="menuitem"
                       tabIndex={-1}
                       id="user-menu-item-0"
@@ -153,17 +166,8 @@ function Header() {
                       Your Profile
                     </a>
                     <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      tabIndex={-1}
-                      id="user-menu-item-1"
-                    >
-                      Settings
-                    </a>
-                    <a
                       onClick={handleLogout}
-                      className="block px-4 py-2 text-sm text-gray-700"
+                      className="block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                       role="menuitem"
                       tabIndex={-1}
                       id="user-menu-item-2"
@@ -175,37 +179,6 @@ function Header() {
               )}
             </div>
           </div>
-        </div>
-      </div>
-      {/* Mobile menu, show/hide based on menu state. */}
-      <div className="sm:hidden" id="mobile-menu">
-        <div className="px-2 pt-2 pb-3 space-y-1">
-          {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-          <a
-            href="#"
-            className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-            aria-current="page"
-          >
-            Dashboard
-          </a>
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Team
-          </a>
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Projects
-          </a>
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Calendar
-          </a>
         </div>
       </div>
     </div>

@@ -1,6 +1,10 @@
 import axiosClient from "./axiosClient";
 
 const movieApi = {
+  newMovie: () => {
+    const url = "/movies/newMovie";
+    return axiosClient.get(url);
+  },
   create: (params) => {
     const url = "/movies/";
     return axiosClient.post(url, params);
@@ -21,14 +25,22 @@ const movieApi = {
     const url = `/movies/find/${id}`;
     return axiosClient.get(url);
   },
-  getAllMovies: (id) => {
+  getAllMovies: () => {
     const url = `/movies/allMovies`;
     return axiosClient.get(url);
   },
-  deleteMovie: (id) => { 
+  getMovieList: () => {
+    const url = `/movies/movieList`;
+    return axiosClient.get(url);
+  },
+  deleteMovie: (id) => {
     const url = `/movies/${id}`;
     return axiosClient.delete(url);
-  }
+  },
+  searchMovie: (name) => {
+    const url = `/movies/search/`;
+    return axiosClient.get(url, { params: { title: name } });
+  },
 };
 
 export default movieApi;

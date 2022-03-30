@@ -43,7 +43,6 @@ function* watchCreateMovie({ payload }) {
 function* watchUpdateMovie({ payload }) {
   try {
     yield put(setLoading(true));
-    console.log(payload)
     yield call(movieApi.update, payload);
     const movies = yield call(movieApi.getAllMovies);
     yield put(fetchMovie(movies));
