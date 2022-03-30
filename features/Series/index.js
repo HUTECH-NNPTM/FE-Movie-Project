@@ -1,18 +1,14 @@
-import { DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import SeriesItem from "./SeriesItem";
 
-function BestSeries() {
+function BestSeries({ series, title }) {
   return (
-    <div className="flex-col p-8">
-      <div className="list-title">Best Series</div>
-      <div className="grid lg:grid-cols-5 lg:gap-y-[50px] lg:gap-x-[12px] sm:grid-cols-1 md:grid-cols-3 sm:gap-y-[50px] sm:gap-x-1">
-        <SeriesItem></SeriesItem>
-        <SeriesItem></SeriesItem>
-        <SeriesItem></SeriesItem>
-        <SeriesItem></SeriesItem>
-        <SeriesItem></SeriesItem>
-        <SeriesItem></SeriesItem>
+    <div className="flex-col p-3 pb-16">
+      <div className="list-title">{title}</div>
+      <div className="flex flex-wrap gap-x-5 gap-y-14">
+        {series.map((item, index) => (
+          <SeriesItem key={index} data={item}></SeriesItem>
+        ))}
       </div>
     </div>
   );

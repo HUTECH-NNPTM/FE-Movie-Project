@@ -1,9 +1,10 @@
 import { DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
-import movieApi from "../../axios/movieApi";
 import MovieItem from "./MovieItem";
+import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from '@heroicons/react/solid'
 
-function BestMovie({movies}) {
+
+function BestMovie({movies, title}) {
   const refScroll = useRef();
   const [positionX, setPositionX] = useState(0);
 
@@ -15,8 +16,8 @@ function BestMovie({movies}) {
     setMovieList(movies);
   }, [movies]);
 
-  const handleMoveLeft = () => {
-    if(positionX == -400 ) { 
+  const handleMoveRight = () => {
+    if(positionX == -1000 ) { 
       return;
     }
     refScroll.current.style.transform = `translateX(${positionX - 200}px)`;
@@ -24,7 +25,7 @@ function BestMovie({movies}) {
     refScroll.current.style.transitionDuration = "1s";
   };
 
-  const handleMoveRight = () => {
+  const handleMoveLeft = () => {
     if(positionX == 0 ) { 
       return;
     }
@@ -36,12 +37,12 @@ function BestMovie({movies}) {
   return (
     <div className="list">
       <div className="list-btn">
-        <div className="list-title">Best Movie</div>
+        <div className="list-title">{title}</div>
         <div className="list-btn__left" onClick={handleMoveLeft}>
-          <DoubleLeftOutlined />
+          <ArrowCircleLeftIcon className="w-8 h-8 leading-none" />
         </div>
         <div className="list-btn__right" onClick={handleMoveRight}>
-          <DoubleRightOutlined />
+          <ArrowCircleRightIcon className="w-8 h-8 leading-none" />
         </div>
       </div>
       <div className="w-full overflow-hidden">

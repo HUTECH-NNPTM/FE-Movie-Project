@@ -1,22 +1,21 @@
-import { PoweroffOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { HeartIcon, ShareIcon, StatusOnlineIcon } from '@heroicons/react/solid';
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ReactPlayer from "react-player";
 import movieApi from "../../../axios/movieApi";
 import MainLayout from "../../../components/layouts/MainLayout";
-import WatchItem from "../../../features/Watch/WatchItem";
+import Loading from "../../../components/Loading";
 
 function WacthMovies({ player }) {
   const router = useRouter();
 
   if (router.isFallback) {
-    return <div className="fixed center-item text-lg">Loading....</div>;
+    return <Loading loading={router.isFallback}></Loading>;
   }
 
   return (
     <div className="watchPage">
-      <div className="watch mt-[60px]">
+      <div className="watch mt-[70px]">
         <div
           className={`watch-left ${player?.isSeries ? " justify-center" : ""}`}
         >
@@ -29,29 +28,6 @@ function WacthMovies({ player }) {
             />
           </div>
         </div>
-        {/* {player.isSeries && ( */}
-        <React.Fragment>
-          <div className="watch-right">
-            <div className="watch-headerList">
-              <div className="watch-title">Danh sách tập</div>
-              <div className="watch-comment">Bình luận</div>
-            </div>
-            <hr></hr>
-            <div className="watch-contentList">
-              <div className="watch-totalList">Tổng số: 5 video</div>
-              <div className="watch-episode">Tập: 5</div>
-            </div>
-            <div className="watch-list">
-              <WatchItem></WatchItem>
-              <WatchItem></WatchItem>
-              <WatchItem></WatchItem>
-              <WatchItem></WatchItem>
-              <WatchItem></WatchItem>
-              <WatchItem></WatchItem>
-              <WatchItem></WatchItem>
-            </div>
-          </div>
-        </React.Fragment>
       </div>
       <div className="watch-content">
         <div className="watch-content__title">{player?.title}</div>
@@ -60,17 +36,22 @@ function WacthMovies({ player }) {
         </div>
         <div className="watch-content__action">
           <div>
-            <Button type="danger" icon={<PoweroffOutlined />}>
-              Thích
-            </Button>
+            <button className="flex items-center bg-transparent	 hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+              <div>Thích</div>
+              <HeartIcon className="w-6 h-6 leading-none" />
+            </button>
           </div>
           <div>
-            <Button icon={<PoweroffOutlined />}>Theo dõi</Button>
+            <button className="flex items-center bg-transparent	 hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+              <div>Theo dõi</div>
+              <StatusOnlineIcon className="w-6 h-6 leading-none" />
+            </button>
           </div>
           <div>
-            <Button type="primary" icon={<PoweroffOutlined />}>
-              Share
-            </Button>
+            <button className="flex items-center bg-transparent	 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+              <div>Chia sẻ</div>
+              <ShareIcon className="w-6 h-6 leading-none" />
+            </button>
           </div>
         </div>
         <div className="watch-content-desc">{player?.desc}</div>
@@ -81,12 +62,11 @@ function WacthMovies({ player }) {
 
 export const getStaticPaths = async () => {
   const movies = await movieApi.getAllMovies();
-
   let paths = movies.map((movie) => `/watch/movies/${movie._id}`);
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 

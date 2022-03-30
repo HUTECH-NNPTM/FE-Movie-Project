@@ -15,16 +15,16 @@ function ListItem(props) {
   const router = useRouter();
   const data = props.data;
 
-  const handleTrailer = useCallback(() => {
+  const handleTrailer =() => {
     dispatch(openTrailer(true));
     dispatch(setTrailerId(data.trailer));
-  }, []);
+  };
 
   return (
     <div className="listItem bg-[#181818] cursor-pointer rounded-md">
       <div className="w-full relative h-[200px] ">
         <img
-          className="listItem-image w-full h-full rounded-md absolute"
+          className="listItem-image w-full h-full rounded-md object-cover absolute"
           src={data.img}
         ></img>
         <div className="absolute bottom-0 p-2 w-full">

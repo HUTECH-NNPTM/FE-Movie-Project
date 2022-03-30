@@ -9,6 +9,8 @@ module.exports = {
     outline: ["focus"],
   },
   plugins: [
+    require('tailwind-scrollbar'),
+    require('tw-elements/dist/plugin')
     // require("@tailwindcss/forms"),
     // require("tailwind-scrollbar"),
     // require("tailwind-scrollbar-hide"),
