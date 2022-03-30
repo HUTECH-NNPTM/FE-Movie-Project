@@ -6,6 +6,7 @@ import movieApi from "../../axios/movieApi";
 import { closeModalDetail } from "../../slice/modalSlice";
 import ReactPlayer from "react-player";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function MovieInfo() {
   const dispatch = useDispatch();
@@ -16,14 +17,13 @@ function MovieInfo() {
   const [isList, setIsList] = useState(false);
 
   const getDataMovieItem = async () => {
-    console.log(id)
     try {
-      if (typeof id == "object") {
+      if (id.type == "series") {
         let data = await listApi.getListById(id.data);
         setMovies(data);
         setIsList(true);
-      } else {
-        let data = await movieApi.getMovieItem(id);
+      } else if(id.type == "movies") {
+        let data = await movieApi.getMovieItem(id.data);
         setMovies(data);
         setIsList(false);
       }
@@ -32,17 +32,14 @@ function MovieInfo() {
     }
   };
 
+  console.log(movies);
+
   useEffect(() => {
     getDataMovieItem();
   }, []);
 
   const handleCloseModal = () => {
     dispatch(closeModalDetail(false));
-  };
-
-  const handleGoToWatch = (movieId) => {
-    dispatch(closeModalDetail(false));
-    return router.push(`/watch/movies/${movieId}`);
   };
 
   return (
@@ -67,13 +64,21 @@ function MovieInfo() {
             </div>
             <div className="absolute center-item">
               <div className="flex space-x-3">
-                <button
-                  onClick={() => handleGoToWatch(movies._id)}
-                  class="bg-[#0e0e0e88] text-white border-[1px] font-bold py-2 px-12 flex items-center space-x-2 "
-                >
-                  <PlayCircleOutlined style={{ fontSize: "25px" }} />{" "}
-                  <span>Xem ngay</span>
-                </button>
+                {id.type == "movies" ? (
+                  <Link href={`/watch/movies/${movies._id}`}>
+                    <button onClick={handleCloseModal} class="bg-[#0e0e0e88] text-white border-[1px] font-bold py-2 px-12 flex items-center space-x-2 ">
+                      <PlayCircleOutlined style={{ fontSize: "25px" }} />{" "}
+                      <span>Xem ngay</span>
+                    </button>
+                  </Link>
+                ) : (
+                  <Link href={`/watch/series/${movies._id}`}>
+                    <button onClick={handleCloseModal} class="bg-[#0e0e0e88] text-white border-[1px] font-bold py-2 px-12 flex items-center space-x-2 ">
+                      <PlayCircleOutlined style={{ fontSize: "25px" }} />{" "}
+                      <span>Xem ngay</span>
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

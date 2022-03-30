@@ -32,12 +32,12 @@ function WatchItem({ data }) {
   return (
     <div
       onClick={() => handleWatched(item._id)}
-      className={`watch-item p-2 bg-black ${active && "itemActive"} `}
+      className={`watch-item cursor-pointer p-2 bg-black ${active && "itemActive"} `}
     >
-      <div className="watch-itemImage">
-        <img className="watch-image w-[200px] h-full" src={item.img}></img>
+      <div className="flex items-center overflow-hidden">
+        <img className="watch-image flex-shrink-0 w-[100px] h-[80px] object-cover" src={item.img}></img>
       </div>
-      <div className="watch-itemTitle text-xs">{item.title}</div>
+      <div className="flex-1 p-3 text-xs">{item.title}</div>
     </div>
   );
 }

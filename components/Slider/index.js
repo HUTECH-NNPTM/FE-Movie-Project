@@ -12,8 +12,12 @@ function Slider({ movies }) {
   const dispatch = useDispatch();
 
   const handleOpenModal = (id) => {
+    let dataObject = {
+      data: id,
+      type: "movies",
+    };
     dispatch(openModalDetail(true));
-    dispatch(setModalId(id));
+    dispatch(setModalId(dataObject));
   };
 
   return (

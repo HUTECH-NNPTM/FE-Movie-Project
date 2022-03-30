@@ -7,23 +7,23 @@ function SeriesItem({ data }) {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const handleOpenModal = useCallback(
-    (id) => {
-      let dataObject = {
-        data: id,
-        type: "series",
-      };
-      dispatch(openModalDetail(true));
-      dispatch(setModalId(dataObject));
-    },
-    [data]
-  );
+  const handleOpenModal = (id) => {
+    let dataObject = {
+      data: id,
+      type: "series",
+    };
+    dispatch(openModalDetail(true));
+    dispatch(setModalId(dataObject));
+  };
 
   return (
     <div className="flex-col series w-[300px] h-[150px] m-0 rounded-md cursor-pointer">
       {/* Header */}
       <div className="flex series__item w-full relative h-full bg-red">
-        <img className="w-full h-full object-cover absolute" src={data.img}></img>
+        <img
+          className="w-full h-full object-cover absolute"
+          src={data.img}
+        ></img>
       </div>
       <div className="flex bg-[#181818] break-all p-2">{data.title}</div>
       {/* Content */}
@@ -32,7 +32,10 @@ function SeriesItem({ data }) {
           {/* Serries Action */}
           <div className="series__action hidden p-2 w-full">
             <div className="flex space-x-2 ">
-              <button onClick={() => router.push(`/watch/series/${data._id}`)} className="bg-white text-black font-bold py-1 px-4 flex items-center space-x-2">
+              <button
+                onClick={() => router.push(`/watch/series/${data._id}`)}
+                className="bg-white text-black font-bold py-1 px-4 flex items-center space-x-2"
+              >
                 <PlayCircleOutlined className="leading-none" />{" "}
                 <span>Xem ngay</span>
               </button>
