@@ -21,7 +21,7 @@
     padding: 10px 0;
   }
   &-list {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 390px;
     scroll-behavior: smooth;
   }

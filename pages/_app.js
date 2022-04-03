@@ -5,9 +5,7 @@ import EmptyLayout from "../components/layouts/EmptyLayout";
 import store from "../redux/store";
 import "../scss/app.scss";
 import "../styles/globals.css";
-import { ToastContainer } from 'react-toastify';
-
-
+import { ToastContainer } from "react-toastify";
 
 function MyApp({ Component, pageProps }) {
   const Layout = Component.Layout ?? EmptyLayout;
@@ -15,7 +13,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <Layout>
-        <ToastContainer/>
+        <ToastContainer />
         <Component {...pageProps} />
       </Layout>
     </Provider>

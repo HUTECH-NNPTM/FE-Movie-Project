@@ -1,6 +1,13 @@
 import axiosClient from "./axiosClient";
 
 const movieApi = {
+  addCommentMovie: (params) => {
+    const url = `/movies/comments/${params.id}`;
+    return axiosClient.put(url, {
+      userId: params.userId,
+      message: params.message,
+    });
+  },
   newMovie: () => {
     const url = "/movies/newMovie";
     return axiosClient.get(url);

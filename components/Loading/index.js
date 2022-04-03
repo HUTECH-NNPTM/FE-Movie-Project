@@ -1,6 +1,7 @@
 import React from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 import { css } from "@emotion/react";
+import Image from "next/image";
 
 function Loading({ loading }) {
   const override = css`
@@ -15,10 +16,7 @@ function Loading({ loading }) {
         <div className="center-item text-lg z-50 absolute ">
           <div className="flex-col justify-center items-center text-lg">
             <div className="flex justify-center pb-2">
-              <img
-                className="logo"
-                src="https://static2.vieon.vn/production-vieon-web-v5/assets/img/vieon_logo_slogan.png"
-              ></img>
+              <Image src="/logo/logoMovie.png" width={200} height={120}></Image>
             </div>
             <div>Vui lòng chờ trong giây lát!</div>
             <div className="flex justify-center mt-3">

@@ -71,8 +71,10 @@ function Search() {
                   className="w-6 h-6 text-white"
                 ></XCircleIcon>
               </div>
+              <div className="flex text-xs p-3">Tìm kiếm nhiều nhất</div>
+              <hr></hr>
               {loading ? (
-                <div className="flex pt-5 justify-center items-center h-60">
+                <div className="flex justify-center items-center h-52">
                   <GridLoader
                     color={"#ffffff"}
                     loading={loading}
@@ -82,7 +84,7 @@ function Search() {
                   />
                 </div>
               ) : (
-                <div className="flex-col pt-5">
+                <div className="flex-col p-1">
                   {data.length == 0 ? (
                     <div className="p-1 text-xs">
                       Không tìm thấy dữ liệu....

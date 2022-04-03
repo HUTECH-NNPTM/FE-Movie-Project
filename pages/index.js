@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useContext } from "react";
 import listApi from "../axios/listApi";
 import movieApi from "../axios/movieApi";
-import userApi from "../axios/userApi";
+import { ExampleContext } from "../components/Context/SocketProvider";
 import MainLayOut from "../components/layouts/MainLayout";
-import Loading from "../components/Loading";
 import Slider from "../components/Slider";
 import Movies from "../features/Movies";
 import Series from "../features/Series";
-import { loginSuccess } from "../slice/userSlice";
-
-function Home({ sliderList, moviesList, seriesList, moviesNewList, seriesNewList }) {
+function Home({
+  sliderList,
+  moviesList,
+  seriesList,
+  moviesNewList,
+  seriesNewList,
+}) {
   return (
     <div className="homePage">
       {/* Slider */}
@@ -42,7 +44,7 @@ export async function getServerSideProps() {
       moviesList,
       seriesList,
       moviesNewList,
-      seriesNewList
+      seriesNewList,
     }, // will be passed to the page component as props
   };
 }

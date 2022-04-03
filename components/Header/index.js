@@ -1,15 +1,13 @@
-import { UserOutlined } from "@ant-design/icons";
 import {
   DotsCircleHorizontalIcon,
-  HeartIcon,
-  SearchCircleIcon,
+  HeartIcon
 } from "@heroicons/react/outline";
-import { Avatar } from "antd";
-import React, { useState } from "react";
-import SideBar from "../SideBar";
+import Image from "next/image";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import Search from "../Search";
+import SideBar from "../SideBar";
+
 
 function Header() {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -26,10 +24,7 @@ function Header() {
   return (
     <div className="header z-40">
       <div className="header-left">
-        <img
-          className="logo"
-          src="https://static2.vieon.vn/production-vieon-web-v5/assets/img/vieon_logo_slogan.png"
-        ></img>
+        <Image src="/logo/logoMovie.png" width={100} height={70}></Image>
       </div>
       <div className="header-content">
         <ul className="header-content__list text-sm">
