@@ -24,7 +24,7 @@ function Header() {
   return (
     <div className="header z-40">
       <div className="header-left">
-        <Image src="/logo/logoMovie.png" width={100} height={70}></Image>
+        <Image src="/logo/logo.png" width={100} height={70}></Image>
       </div>
       <div className="header-content">
         <ul className="header-content__list text-sm">

@@ -16,7 +16,7 @@ function Loading({ loading }) {
         <div className="center-item text-lg z-50 absolute ">
           <div className="flex-col justify-center items-center text-lg">
             <div className="flex justify-center pb-2">
-              <Image src="/logo/logoMovie.png" width={200} height={120}></Image>
+              <Image src="/logo/logo.png" width={200} height={120}></Image>
             </div>
             <div>Vui lòng chờ trong giây lát!</div>
             <div className="flex justify-center mt-3">
