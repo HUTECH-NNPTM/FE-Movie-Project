@@ -1,4 +1,4 @@
-import { HeartIcon, ShareIcon, StatusOnlineIcon } from '@heroicons/react/solid';
+import { HeartIcon, ShareIcon, StatusOnlineIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,6 @@ import MainLayout from "../../../components/layouts/MainLayout";
 import LoadingWatch from "../../../components/LoadingWatch";
 import WatchItem from "../../../features/Watch/WatchItem";
 import { setIdMovie } from "../../../slice/seriesSlice";
-
 
 function WatchSeries({ player }) {
   const movieID = useSelector((state) => state.series.idMovie);
@@ -43,51 +42,59 @@ function WatchSeries({ player }) {
   }, [movieID]);
 
   return (
-    <div className="watchPage">
-      <div className="watch mt-[70px]">
+    <div className="watchPage bg-[#181818]">
+      <div className="watch">
         <div
           className={`watch-left ${player?.isSeries ? " justify-center" : ""}`}
         >
-          <div className="watch-video">
+          <div className="flex flex-wrap">
             {loading ? (
-              <LoadingWatch loading={true}></LoadingWatch>
+              <div className="flex-shrink-0">
+                <LoadingWatch loading={true}></LoadingWatch>
+              </div>
             ) : (
-              <ReactPlayer
-                url={`${data?.video}`}
-                width="100%"
-                height={500}
-                controls={true}
-              />
+              <div className="flex-shrink-0">
+                <ReactPlayer
+                  url={`${data?.video}`}
+                  width={900}
+                  height={500}
+                  controls={true}
+                />
+              </div>
             )}
+            <div className="flex-1">
+              <React.Fragment>
+                <div className="watch-right bg-[#181818]">
+                  <div className="watch-headerList !overflow-y-auto">
+                    <div className="watch-title">Danh sách tập</div>
+                    <div className="watch-comment">Bình luận</div>
+                  </div>
+                  <hr></hr>
+                  <div className="watch-contentList">
+                    <div className="watch-totalList">
+                      Tổng số: {player?.content?.length} video
+                    </div>
+                  </div>
+                  <div className="watch-list">
+                    {player?.content?.map((item, index) => (
+                      <WatchItem key={index} data={item}></WatchItem>
+                    ))}
+                  </div>
+                </div>
+              </React.Fragment>
+            </div>
           </div>
         </div>
-        <React.Fragment>
-          <div className="watch-right bg-[#181818]">
-            <div className="watch-headerList">
-              <div className="watch-title">Danh sách tập</div>
-              <div className="watch-comment">Bình luận</div>
-            </div>
-            <hr></hr>
-            <div className="watch-contentList">
-              <div className="watch-totalList">
-                Tổng số: {player?.content?.length} video
-              </div>
-            </div>
-            <div className="watch-list">
-              {player?.content?.map((item, index) => (
-                <WatchItem key={index} data={item}></WatchItem>
-              ))}
-            </div>
-          </div>
-        </React.Fragment>
       </div>
       <div className="watch-content">
-        <div className="watch-content__title font-bold">SERIES: {player?.title}</div>
+        <div className="watch-content__title font-bold">
+          SERIES: {player?.title}
+        </div>
         <div className="flex text-md">{data && data?.title}</div>
         <div className="watch-content__view">
           <span>241,770</span> lượt xem
         </div>
-        <div className="watch-content__action">
+        <div className="flex flex-wrap space-x-2 p-2">
           <div>
             <button className="flex items-center bg-transparent	 hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
               <div>Thích</div>

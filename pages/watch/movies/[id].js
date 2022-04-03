@@ -1,10 +1,11 @@
-import { HeartIcon, ShareIcon, StatusOnlineIcon } from '@heroicons/react/solid';
+import { HeartIcon, ShareIcon, StatusOnlineIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import React from "react";
 import ReactPlayer from "react-player";
 import movieApi from "../../../axios/movieApi";
 import MainLayout from "../../../components/layouts/MainLayout";
 import Loading from "../../../components/Loading";
+import Comments from "../../../features/Comments";
 
 function WacthMovies({ player }) {
   const router = useRouter();
@@ -14,18 +15,23 @@ function WacthMovies({ player }) {
   }
 
   return (
-    <div className="watchPage">
-      <div className="watch mt-[70px]">
+    <div className="watchPage bg-[#101010]">
+      <div className="watch mt-[100px] ">
         <div
           className={`watch-left ${player?.isSeries ? " justify-center" : ""}`}
         >
-          <div className="watch-video">
-            <ReactPlayer
-              url={`${player?.video}`}
-              width="100%"
-              height={500}
-              controls={true}
-            />
+          <div className="flex flex-wrap justify-center">
+            <div className="flex-2">
+              <ReactPlayer
+                url={`${player?.video}`}
+                width="100%"
+                height="500px"
+                controls={true}
+              />
+            </div>
+            <div className="flex-1">
+              <Comments movieId={player?._id}></Comments>
+            </div>
           </div>
         </div>
       </div>
