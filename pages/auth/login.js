@@ -106,8 +106,8 @@ function Login() {
 
           <div className="flex space-x-2">
             <span>Bạn mới tham gia?</span>
-            <Link href="/auth/register" className="cursor-pointer">
-              <span>Đăng kí ngay</span>
+            <Link href="/auth/register" >
+              <span className="cursor-pointer">Đăng kí ngay</span>
             </Link>
           </div>
         </div>

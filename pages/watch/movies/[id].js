@@ -16,7 +16,7 @@ function WacthMovies({ player }) {
 
   return (
     <div className="watchPage bg-[#101010]">
-      <div className="watch mt-[100px] ">
+      <div className="watch">
         <div
           className={`watch-left ${player?.isSeries ? " justify-center" : ""}`}
         >

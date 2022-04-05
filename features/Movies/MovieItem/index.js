@@ -52,10 +52,10 @@ function ListItem(props) {
       </div>
       <div className="listItem-content">
         <div className="listItem-content__footer overflow-hidden">
-          <div className="listItem-title">{data.title}</div>
+          <div className="listItem-title slice-word-title">{data.title}</div>
           <div className="listItem-timer">1 tiếng 14 phút</div>
           <div className="relative">
-            <div className="listItem-desc">{data.desc}</div>
+            <div className="listItem-desc slice-word-desc">{data.desc}</div>
           </div>
         </div>
       </div>

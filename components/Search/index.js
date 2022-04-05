@@ -51,7 +51,7 @@ function Search() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-72 relative">
+      <div className="flex-1 relative">
         <div className="input-group relative flex flex-wrap items-stretch w-full">
           <input
             onChange={handleChange}
@@ -63,7 +63,7 @@ function Search() {
           />
         </div>
         {openDataSearch && (
-          <div className="w-72 h-64 max-h-64 absolute bg-[#181818] p-1 mt-1 overflow-y-auto scrollbar-thin">
+          <div className="w-72 h-64 max-h-64 absolute bg-[#181818] left-[-40px] p-1 mt-2 overflow-y-auto scrollbar-thin">
             <div className="relative">
               <div className="absolute top-0 right-1 m-2">
                 <XCircleIcon

@@ -23,8 +23,10 @@ function Home({
         {/* Best Series */}
         <Series series={seriesNewList} title="PHIM TẬP DÀI MỚI NHẤT "></Series>
         {/* Best Movie */}
+        <div id="scroll-new-movie"></div>
         <Movies movies={moviesList} title="PHIM CHIẾU RẠP"></Movies>
         {/* Best Series */}
+        <div id="scroll-new-series"></div>
         <Series series={seriesList} title="PHIM TẬP DÀI "></Series>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../../../slice/userSlice";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 function Header() {
   const user = useSelector((state) => state.user.info);
@@ -66,29 +67,20 @@ function Header() {
               </svg>
             </button>
           </div>
-          <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex-shrink-0 flex items-center">
-              <img
-                className="block lg:hidden h-8 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                alt="Workflow"
-              />
-              <img
-                className="hidden lg:block h-8 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                alt="Workflow"
-              />
+          <div className="flex-1 flex items-center">
+            <div className="flex">
+              <Image src="/logo/logo.png" width={100} height={70}></Image>
             </div>
-            <div className="hidden sm:block sm:ml-6">
+            <div className="">
               <div className="flex space-x-4">
-                <Link href={"/admin/dashboard"}>
+                {/* <Link href={"/admin/dashboard"}>
                   <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
                     Dashboard
                   </a>
-                </Link>
+                </Link> */}
                 <Link href={"/admin/movies"}>
                   <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
-                    Movie
+                    Video
                   </a>
                 </Link>
                 <Link href={"/admin/series"}>
@@ -96,11 +88,11 @@ function Header() {
                     Series
                   </a>
                 </Link>
-                <Link href={"/admin/users"}>
+                {/* <Link href={"/admin/users"}>
                   <a className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
                     Users
                   </a>
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
@@ -139,11 +131,27 @@ function Header() {
                   aria-haspopup="true"
                 >
                   <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
+                  {user?.profilePic == "" ? (
+                    <React.Fragment>
+                      <div className="flex w-8 h-8 bg-gray-200 text-black rounded-full overflow-hidden items-center justify-center">
+                        <div className="flex">
+                          <img
+                            className="object-cover rounded-full h-8 w-8"
+                            src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+                          ></img>
+                        </div>
+                      </div>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <div className="flex">
+                        <img
+                          className="object-cover rounded-full h-8 w-8"
+                          src={user?.profilePic}
+                        ></img>
+                      </div>
+                    </React.Fragment>
+                  )}
                 </button>
               </div>
 

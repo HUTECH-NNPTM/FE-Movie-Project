@@ -16,7 +16,6 @@ function Movies() {
   const [openFormEdit, setOpenFormEdit] = useState(false);
   const [movieID, setMovieID] = useState(null);
 
-
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -63,13 +62,13 @@ function Movies() {
           <div className="w-full mx-auto bg-gray-50 shadow-lg rounded-sm border border-gray-200">
             <header className="px-5 py-4 border-b border-gray-100">
               <div className="flex w-full justify-between">
-                <h2 className="font-semibold text-gray-800">Movies</h2>
+                <h2 className="font-semibold text-gray-800">Video</h2>
                 <button
                   onClick={handleFormAdd}
                   type="button"
                   class="text-purple-700 hover:text-white border border-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-purple-400 dark:text-purple-400 dark:hover:text-white dark:hover:bg-purple-500 dark:focus:ring-purple-900"
                 >
-                  Add Movie
+                  Add Video
                 </button>
               </div>
             </header>
@@ -82,7 +81,7 @@ function Movies() {
                         <div className="font-semibold text-left">Image</div>
                       </th>
                       <th className="p-2">
-                        <div className="font-semibold text-left">Movies</div>
+                        <div className="font-semibold text-left">Title</div>
                       </th>
                       <th className="p-2 whitespace-nowrap">
                         <div className="font-semibold text-left">Genre</div>

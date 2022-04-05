@@ -80,7 +80,7 @@ function AddMovie({ handleCloseForm }) {
   };
 
   return (
-    <div className="fixed max-h-[500px] rounded-md bg-white shadow center-item top-[52%] border-[1px]overflow-y-auto h-[500px] w-[750px] z-10 scrollbar-thin scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 ">
+    <div className="fixed max-h-[500px] rounded-md bg-white shadow center-item top-[52%] border-[1px]overflow-y-auto h-[500px] w-[750px] z-10 overflow-y-auto">
       {/* CLOSE BUTTON */}
       <form className="relative p-12" onSubmit={handleSubmit}>
         <div

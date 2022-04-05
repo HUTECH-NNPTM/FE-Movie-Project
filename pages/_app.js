@@ -5,6 +5,8 @@ import EmptyLayout from "../components/layouts/EmptyLayout";
 import store from "../redux/store";
 import "../scss/app.scss";
 import "../styles/globals.css";
+import 'emoji-mart/css/emoji-mart.css'
+
 import { ToastContainer } from "react-toastify";
 
 function MyApp({ Component, pageProps }) {

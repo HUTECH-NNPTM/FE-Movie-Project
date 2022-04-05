@@ -4,6 +4,7 @@ import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { logoutSuccess } from "../../slice/userSlice";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function SideBar() {
   const user = useSelector((state) => state.user.info);
@@ -22,7 +23,7 @@ function SideBar() {
   };
 
   return (
-    <div className="absolute shadow-xl rounded-md top-10 left-[-260px] w-[350px] max-w-[300px] text-sm bg-[#151515]">
+    <div className="absolute shadow-xl rounded-md top-10 left-[-270px] w-[350px] max-w-[300px] text-sm bg-[#151515]">
       <div className="w-full p-3 border-b-[1px]">
         <div className="w-full">
           <div className="flex text-sm pb-1">Đang đăng nhập</div>
@@ -30,19 +31,36 @@ function SideBar() {
             onClick={() => router.push(`/profile/${info?._id}`)}
             className="flex m-1 border-[1px] p-1 space-x-5 items-center rounded-md hover:bg-black"
           >
-            <Avatar className="navIcon m-5" icon={<UserOutlined />} />
+            {user?.profilePic == "" ? (
+              <React.Fragment>
+                <div className="flex w-8 h-8 bg-gray-200 text-black rounded-full overflow-hidden items-center justify-center">
+                  <div className="flex">
+                    <img
+                      className="object-cover rounded-full h-8 w-8"
+                      src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+                    ></img>
+                  </div>
+                </div>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <div className="flex">
+                  <img
+                    className="object-cover rounded-full h-8 w-8"
+                    src={user?.profilePic}
+                  ></img>
+                </div>
+              </React.Fragment>
+            )}{" "}
             <div className="flex-col">
               <div className="font-bold break-all">{info?.username}</div>
               <div className="text-gray-300 break-all">{info?.email}</div>
             </div>
           </div>
           {info?.isAdmin && (
-            <div
-              className="flex p-5"
-              onClick={() => router.push("admin/dashboard")}
-            >
-              Quản lý website
-            </div>
+            <Link href="/admin/movies">
+              <div className="flex p-5">Quản lý website</div>
+            </Link>
           )}
         </div>
       </div>

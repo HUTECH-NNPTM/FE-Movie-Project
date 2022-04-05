@@ -17,7 +17,7 @@ function SeriesItem({ data }) {
   };
 
   return (
-    <div className="flex-col series w-[300px] h-[150px] m-0 rounded-md cursor-pointer">
+    <div className="flex-col series w-[calc(25%-25px)] mb-[70px] ml-[25px] h-[150px] m-0 rounded-md cursor-pointer">
       {/* Header */}
       <div className="flex series__item w-full relative h-full bg-red">
         <img
@@ -25,7 +25,7 @@ function SeriesItem({ data }) {
           src={data.img}
         ></img>
       </div>
-      <div className="flex bg-[#181818] break-all p-2">{data.title}</div>
+      <div title={data.title} className="flex bg-[#181818] break-all p-2 slice-word-title">{data.title}</div>
       {/* Content */}
       <div className="block bg-[#181818] !text-xs">
         <div className="flex-col w-full h-full">
